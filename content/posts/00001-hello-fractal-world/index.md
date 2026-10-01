@@ -1,9 +1,9 @@
 ---
-title: "Hello, fractal world"
+title: "Hi man! A fractal might do the trick up my sleeve!"
 subtitle: "Why this blog has a Julia set breathing behind every page"
-date: 2026-09-29T21:30:00+01:00
+date: 2026-10-01T03:14:00+01:00
 author: "Pedro Jorge"
-slug: "hello-fractal-world"
+slug: "fractals"
 description: "A first post: the Julia set in the background, the maths behind it, and how this blog is built."
 draft: false
 ---
@@ -52,6 +52,6 @@ def escape_time(z: complex, c: complex, n_max: int = 56) -> int:
 
 ## What comes next
 
-- Notes on linear algebra that machine learning actually uses.
-- Quantum circuits, one gate at a time.
-- Endgames I keep getting wrong.
+- The Endless Quest! Or infinite adventures!
+- Perhaps you already know or else we both might imagine!
+- A world full of wonders!
