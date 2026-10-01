@@ -1,0 +1,13 @@
+baseURL = "https://rustcircle.com/"   # your real domain (required since v0.167 changed the default)
+languageCode = "en-us"
+title = "Rust Circle"
+ 
+# Hugo version requirements: Hugo warns if the running version doesn't match.
+[module]
+  [module.hugoVersion]
+    min = "0.167.0"
+    extended = true                 # set to false if your theme has no SCSS
+ 
+[build]
+  [build.cleanDestinationDir]
+    enable = true                   # wipe stale files from public/ before each build
