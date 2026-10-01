@@ -1,0 +1,10 @@
+{{- $a := site.Params.author }}
+<aside class="profile" aria-label="{{ T "profile" }}">
+  {{ partial "avatar.html" 56 }}
+  <dl>
+    <div><dt>{{ T "name" }}</dt><dd>{{ $a.name }}</dd></div>
+    <div><dt>{{ T "occupation" }}</dt><dd>{{ $a.occupation }}</dd></div>
+    <div><dt>{{ T "hobby" }}</dt><dd>♞ {{ $a.hobby }}</dd></div>
+    <div><dt>{{ T "contact" }}</dt><dd><a href="mailto:{{ $a.email }}">{{ $a.email }}</a></dd></div>
+  </dl>
+</aside>

@@ -1,0 +1,23 @@
+{
+  "name": "rustcircle-blog",
+  "private": true,
+  "type": "module",
+  "description": "rustcircle.com — Hugo blog by Pedro Jorge",
+  "scripts": {
+    "build": "make build",
+    "dev": "make dev",
+    "check": "make check",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "@fontsource/orbitron": "5.3.0",
+    "@types/node": "24.19.0",
+    "hugo-extended": "0.166.0",
+    "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": ">=23.6"
+  }
+}

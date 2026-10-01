@@ -1,0 +1,60 @@
+{{- /* Render the content first so render hooks can flag what this page needs. */ -}}
+{{- $noop := .Content -}}
+{{- $title := cond .IsHome (printf "%s — %s" site.Title site.Params.tagline) (printf "%s · %s" .Title site.Title) -}}
+{{- $desc := or .Description .Params.subtitle (cond .IsPage (.Summary | plainify | strings.TrimSpace) "") site.Params.description | truncate 180 -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ site.Params.author.name }}">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f4f9ff">
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+{{- range slice "plex-sans-400" "orbitron-700" }}
+<link rel="preload" href="{{ partial "font-url.html" . }}" as="font" type="font/woff2" crossorigin>
+{{- end }}
+{{- /* Critical CSS (fonts + layout + components) is inlined: no render-blocking request. */}}
+{{- $fonts := resources.Get "css/fonts.css" | resources.ExecuteAsTemplate "css/fonts.css" . }}
+{{- $core := slice $fonts (resources.Get "css/core.css") | resources.Concat "css/core.css" | minify }}
+<style>{{ $core.Content | safeCSS }}</style>
+{{- /* Page-specific CSS: only where the page needs it, cached across pages. */}}
+{{- if .IsPage }}
+{{- $post := resources.Get "css/post.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $post.RelPermalink }}" integrity="{{ $post.Data.Integrity }}">
+{{- end }}
+{{- if .Store.Get "hasCode" }}
+{{- $syn := resources.Get "css/syntax.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $syn.RelPermalink }}" integrity="{{ $syn.Data.Integrity }}">
+{{- end }}
+{{- /* Prefetch same-site pages on hover/press (Chromium); JS falls back elsewhere. */}}
+<script type="speculationrules">{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/*.*"}}]},"eagerness":"moderate"}]}</script>
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ .Title | default site.Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ "img/og-avatar.jpg" | absURL }}">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
+<meta name="twitter:card" content="summary">
+{{- if and .IsPage (eq .Section "posts") }}
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "alternativeHeadline" (.Params.subtitle | default "")
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+  "url" .Permalink
+  "author" (dict "@type" "Person" "name" (.Params.author | default site.Params.author.name) "email" site.Params.author.email "jobTitle" site.Params.author.occupation "url" site.Home.Permalink)
+  | jsonify | safeJS }}</script>
+{{- else }}
+<meta property="og:type" content="website">
+{{- end }}
+{{ partial "script.html" . }}

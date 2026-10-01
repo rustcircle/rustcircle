@@ -1,0 +1,23 @@
+{{- /* Maths rendered to MathML at build time (KaTeX inside Hugo): no client JS, no maths CSS or fonts to download. */ -}}
+{{- $opts := dict "output" "mathml" "displayMode" (eq .Type "block") "throwOnError" false -}}
+{{- with try (transform.ToMath .Inner $opts) -}}
+  {{- with .Err -}}
+    {{- warnf "%s: maths error: %s" $.Page.File.Path . -}}
+    <code class="math-error">{{ $.Inner }}</code>
+  {{- else -}}
+    {{- $m := string .Value -}}
+    {{- /* MathML Core ignores mathvariant other than "normal": map \mathbb, \mathbf, \mathfrak, \mathcal letters to their Unicode maths characters. */ -}}
+    {{- if strings.Contains $m `mathvariant="` -}}
+      {{- range $variant, $letters := hugo.Data.mathvariants -}}
+        {{- if strings.Contains $m (printf `mathvariant="%s"` $variant) -}}
+          {{- range $l, $g := $letters -}}
+            {{- $m = replace $m (printf `<mi mathvariant="%s">%s</mi>` $variant $l) (printf `<mi>%s</mi>` $g) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- /* \lvert, \rvert and | as delimiters: fence spacing, not the "divides" relation spacing. */ -}}
+    {{- $m = replace $m `<mo stretchy="false">∣</mo>` `<mo stretchy="false" lspace="0" rspace="0">∣</mo>` -}}
+    {{- $m | safeHTML -}}
+  {{- end -}}
+{{- end -}}

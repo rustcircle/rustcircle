@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body class="k-{{ .Kind }}{{ with .Section }} s-{{ . }}{{ end }}">
+<a class="skip" href="#main">{{ T "skip" }}</a>
+<canvas id="bg" aria-hidden="true"></canvas>
+{{ partial "header.html" . }}
+<main id="main" tabindex="-1">
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+</body>
+</html>

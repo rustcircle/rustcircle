@@ -1,0 +1,32 @@
+{{- /*
+Images from the post's assets/ folder become responsive WebP (480/800/1200 px,
+never upscaled) with intrinsic size to avoid layout shift. SVG/GIF and remote
+images pass through. A title ("…") becomes the caption.
+*/ -}}
+{{- $src := .Destination -}}
+{{- $alt := .PlainText -}}
+{{- $img := .Page.Resources.Get $src -}}
+{{- $cap := .Title -}}
+{{- if .IsBlock }}<figure>{{ end -}}
+{{- if and $img (in (slice "image/jpeg" "image/png" "image/webp" "image/tiff" "image/bmp") $img.MediaType.Type) -}}
+  {{- $w := $img.Width -}}
+  {{- $set := slice -}}
+  {{- range slice 480 800 1200 -}}
+    {{- if le . $w -}}{{- $set = $set | append ($img.Resize (printf "%dx webp" .)) -}}{{- end -}}
+  {{- end -}}
+  {{- if not $set -}}{{- $set = slice ($img.Resize (printf "%dx webp" $w)) -}}{{- end -}}
+  {{- $def := index $set (sub (len $set) 1) -}}
+  <img src="{{ $def.RelPermalink }}"
+    srcset="{{ range $i, $r := $set }}{{ if $i }}, {{ end }}{{ $r.RelPermalink }} {{ $r.Width }}w{{ end }}"
+    sizes="(min-width: 760px) 720px, 100vw"
+    width="{{ $def.Width }}" height="{{ $def.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async">
+{{- else if $img -}}
+  {{- $dims := "" -}}
+  {{- if ne $img.MediaType.SubType "svg" }}{{ $dims = printf ` width="%d" height="%d"` $img.Width $img.Height }}{{ end -}}
+  <img src="{{ $img.RelPermalink }}" alt="{{ $alt }}"{{ $dims | safeHTMLAttr }} loading="lazy" decoding="async">
+{{- else -}}
+  {{- if not (strings.HasPrefix $src "http") }}{{ warnf "%s: image not found: %s" .Page.File.Path $src }}{{ end -}}
+  <img src="{{ $src | safeURL }}" alt="{{ $alt }}" loading="lazy" decoding="async">
+{{- end -}}
+{{- if .IsBlock }}{{ with $cap }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}</figure>{{ end -}}
+{{- /* */ -}}

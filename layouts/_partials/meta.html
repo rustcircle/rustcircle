@@ -1,0 +1,5 @@
+{{- /* Date · time · reading time line. Context: page. */ -}}
+<p class="meta">
+  <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date | time.Format ":date_medium" }}<span class="sep" aria-hidden="true"> · </span><span class="clock">{{ .Date.Format "15:04" }}</span></time>
+  <span class="sep" aria-hidden="true"> · </span><span>{{ T "readingTime" .ReadingTime }}</span>
+</p>

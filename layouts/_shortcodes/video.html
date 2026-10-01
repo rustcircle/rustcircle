@@ -1,0 +1,15 @@
+{{- /*
+{{< video src="assets/clip.mp4" poster="assets/poster.jpg" caption="…" >}}
+Muted autoplay loops only when autoplay="true"; otherwise click to play.
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $v := .Page.Resources.Get $src -}}
+{{- $p := "" -}}
+{{- with .Get "poster" }}{{ with $.Page.Resources.Get . }}{{ $p = .RelPermalink }}{{ end }}{{ end -}}
+{{- $auto := eq (.Get "autoplay") "true" -}}
+<figure class="video">
+  <video controls preload="{{ cond $auto "metadata" "none" }}" playsinline{{ if $auto }} autoplay muted loop{{ end }}{{ with $p }} poster="{{ . }}"{{ end }}>
+    <source src="{{ with $v }}{{ .RelPermalink }}{{ else }}{{ $src }}{{ end }}"{{ with $v }} type="{{ .MediaType.Type }}"{{ end }}>
+  </video>
+  {{- with .Get "caption" }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

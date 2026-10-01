@@ -1,0 +1,8 @@
+{{- /* "00001" from a bundle folder named 00001-title or 00001_title; "" otherwise. */ -}}
+{{- $n := "" -}}
+{{- with .File -}}
+  {{- with findRESubmatch `^(\d{5})[-_]` .ContentBaseName 1 -}}
+    {{- $n = index (index . 0) 1 -}}
+  {{- end -}}
+{{- end -}}
+{{- return $n -}}

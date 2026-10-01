@@ -1,0 +1,14 @@
+{{- /*
+Only boot.ts loads with the page (module = deferred). Each feature is its own
+bundle, fetched by dynamic import() when needed; boot gets their fingerprinted
+URLs through @params, so there is no runtime chunk map to download.
+*/ -}}
+{{- $prod := hugo.IsProduction -}}
+{{- $base := dict "minify" $prod "target" "es2022" "format" "esm" "sourceMap" (cond $prod "" "inline") -}}
+{{- $chunks := dict -}}
+{{- range slice "fractal" "copy" "konami" -}}
+  {{- $r := resources.Get (printf "ts/%s.ts" .) | js.Build (merge $base (dict "targetPath" (printf "js/%s.js" .))) | fingerprint -}}
+  {{- $chunks = merge $chunks (dict . $r.RelPermalink) -}}
+{{- end -}}
+{{- $boot := resources.Get "ts/boot.ts" | js.Build (merge $base (dict "targetPath" "js/boot.js" "params" $chunks)) | fingerprint -}}
+<script type="module" src="{{ $boot.RelPermalink }}" integrity="{{ $boot.Data.Integrity }}"></script>

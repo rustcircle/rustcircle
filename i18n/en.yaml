@@ -1,0 +1,24 @@
+skip: Skip to content
+home: home
+mainNav: Main
+tagline: "exploring maths, AI & quantum computing"
+latest: Latest posts
+noPosts: No posts yet.
+pagination: Pagination
+newer: Newer
+older: Older
+allPosts: All posts
+morePosts: More posts
+profile: Profile
+name: Name
+occupation: Occupation
+hobby: Hobby
+contact: Contact
+builtWith: Built with
+linkTo: Link to section
+notFound: Lost in the fractal
+notFoundHint: "page not found — the orbit escaped to infinity"
+goHome: Back to the start
+readingTime:
+  one: "1 min read"
+  other: "{{ .Count }} min read"

@@ -1,0 +1,11 @@
+{{- $n := partial "post-number.html" . -}}
+<li class="card">
+  <article>
+    <a class="card-link" href="{{ .RelPermalink }}">
+      {{- with $n }}<span class="num" aria-hidden="true">#{{ . }}</span>{{ end }}
+      <h3 class="card-title"{{ with $n }} style="view-transition-name:t{{ . }}"{{ end }}>{{ .Title }}</h3>
+      {{- with .Params.subtitle }}<p class="card-sub">{{ . }}</p>{{ end }}
+    </a>
+    {{ partial "meta.html" . }}
+  </article>
+</li>

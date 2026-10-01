@@ -1,0 +1,8 @@
+{{ define "main" }}
+<div class="wrap lost">
+  <p class="num">ERROR 404</p>
+  <h1 class="chrome">{{ T "notFound" }}</h1>
+  <p class="tagline"><span class="prompt" aria-hidden="true">&gt;</span> {{ T "notFoundHint" }}<span class="cursor" aria-hidden="true">▍</span></p>
+  <p><a class="button" href="{{ site.Home.RelPermalink }}">{{ T "goHome" }}</a></p>
+</div>
+{{ end }}

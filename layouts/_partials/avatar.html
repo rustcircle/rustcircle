@@ -1,0 +1,7 @@
+{{- /* Arg: CSS size in px (56 or 28). Files exist at 56/112/168 px. */ -}}
+{{- $s := . | default 56 -}}
+{{- if eq $s 28 -}}
+<img class="avatar avatar-sm" src="/img/avatar-56.webp" width="28" height="28" alt="" decoding="async">
+{{- else -}}
+<img class="avatar" src="/img/avatar-56.webp" srcset="/img/avatar-56.webp 1x, /img/avatar-112.webp 2x, /img/avatar-168.webp 3x" width="56" height="56" alt="{{ site.Params.author.name }}" fetchpriority="high">
+{{- end -}}

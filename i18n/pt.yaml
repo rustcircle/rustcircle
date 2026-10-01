@@ -1,0 +1,25 @@
+# pt-PT. Para usar: em hugo.toml, languageCode = "pt-PT" e defaultContentLanguage = "pt".
+skip: Saltar para o conteúdo
+home: início
+mainNav: Principal
+tagline: "a explorar matemática, IA e computação quântica"
+latest: Publicações recentes
+noPosts: Ainda não há publicações.
+pagination: Paginação
+newer: Mais recente
+older: Mais antiga
+allPosts: Todas as publicações
+morePosts: Mais publicações
+profile: Perfil
+name: Nome
+occupation: Profissão
+hobby: Passatempo
+contact: Contacto
+builtWith: Feito com
+linkTo: Ligação para a secção
+notFound: Perdido no fractal
+notFoundHint: "página não encontrada — a órbita fugiu para o infinito"
+goHome: Voltar ao início
+readingTime:
+  one: "1 min de leitura"
+  other: "{{ .Count }} min de leitura"

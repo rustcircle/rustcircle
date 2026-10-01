@@ -1,0 +1,96 @@
+baseURL = "https://rustcircle.com/"
+title = "rustcircle"
+locale = "en"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+enableGitInfo = false
+removePathAccents = true
+timeZone = "Europe/Lisbon"
+summaryLength = 40
+# No taxonomies (no tags/categories), no RSS, no sitemap.
+disableKinds = ["taxonomy", "term", "rss", "sitemap"]
+
+# Folders under content/posts are NNNNN-title or NNNNN_title (00001 … 99999).
+# The number orders the folders in the editor; the public URL drops it
+# (the archetype writes `slug:` without the prefix).
+[permalinks.page]
+  posts = "/posts/:slug/"
+
+[taxonomies]
+
+[params]
+  description = "Notes on mathematics, artificial intelligence and quantum computing — by Pedro Jorge."
+  tagline = "maths · AI · quantum computing"
+  email = "pmrj@rustcircle.com"
+  [params.author]
+    name = "Pedro Jorge"
+    occupation = "Mathematician, Programmer"
+    hobby = "Chess"
+    email = "pmrj@rustcircle.com"
+
+[menus]
+  [[menus.main]]
+    name = "Posts"
+    pageRef = "/posts"
+    weight = 10
+  [[menus.main]]
+    name = "About"
+    pageRef = "/about"
+    weight = 30
+
+[outputs]
+  home = ["html"]
+  section = ["html"]
+  page = ["html"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # Raw HTML is allowed in posts (e.g. <video>); HTML comments are private
+      # notes and are stripped from the output, like the book's Lua filter.
+      unsafe = true
+    [markup.goldmark.extensions]
+      typographer = true
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)'], ['$', '$']]
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+      [markup.goldmark.parser.attribute]
+        block = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[minify]
+  minifyOutput = true
+  [minify.tdewolff.html]
+    keepWhitespace = false
+
+[build]
+  [build.buildStats]
+    enable = false
+
+[caches]
+  [caches.images]
+    dir = ":resourceDir/_gen"
+    maxAge = -1
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_']
+
+[imaging]
+  resampleFilter = "Lanczos"
+  [imaging.webp]
+    quality = 78
+  [imaging.jpeg]
+    quality = 80
+  [imaging.exif]
+    disableDate = true
+    disableLatLong = true

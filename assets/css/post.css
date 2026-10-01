@@ -1,0 +1,54 @@
+/* Post and page body: loaded only on pages that render Markdown (not on lists). */
+@layer components {
+  .prose { max-width: var(--measure); }
+  .prose > * + * { margin-top: 1.15em; }
+  .prose h2 { font-size: var(--step-2); margin-top: 2em; }
+  .prose h3 { font-size: var(--step-1); margin-top: 1.6em; }
+  .prose h2, .prose h3, .prose h4 { position: relative; }
+  .anchor { margin-left: .4rem; text-decoration: none; color: var(--sky); opacity: 0; transition: opacity .2s; }
+  :is(h2, h3, h4):hover .anchor, .anchor:focus-visible { opacity: 1; color: var(--link); }
+  .prose ul, .prose ol { padding-left: 1.3rem; }
+  .prose li + li { margin-top: .3em; }
+  .prose li::marker { color: var(--link); }
+  .prose blockquote { border-left: 3px solid var(--sky); padding: .2rem 0 .2rem 1rem; color: var(--ink-2); font-style: italic; }
+  .prose hr { border: 0; block-size: 1px; background: linear-gradient(90deg, transparent, var(--sky), transparent); margin-block: 2.5rem; }
+  .prose :not(pre) > code { background: var(--sky-soft); padding: .1em .35em; border-radius: 5px; color: var(--navy); }
+  .prose pre {
+    position: relative; overflow-x: auto; padding: 1rem 1.1rem; border-radius: 12px; line-height: 1.55;
+    background: #f7fbff; border: 1px solid var(--line); font-size: .86rem; tab-size: 2;
+  }
+  .prose figure img, .prose figure video { border-radius: 12px; margin-inline: auto; box-shadow: var(--shadow); }
+  .prose figcaption { text-align: center; color: var(--ink-3); font-size: var(--step--1); margin-top: .6rem; }
+  .prose table { border-collapse: collapse; width: 100%; font-size: .95em; display: block; overflow-x: auto; }
+  .prose th, .prose td { border-bottom: 1px solid var(--line); padding: .45rem .6rem; text-align: left; }
+  .prose th { color: var(--ink-2); font-weight: 600; }
+
+  .copy {
+    position: absolute; top: .45rem; right: .45rem; padding: .15rem .55rem; border-radius: 7px;
+    font: 400 .72rem/1.6 var(--f-mono); color: var(--ink-2); background: #fff; border: 1px solid var(--line);
+    cursor: pointer; opacity: 0; transition: opacity .2s, background .2s;
+  }
+  pre:hover .copy, .copy:focus-visible, .copy[data-done] { opacity: 1; }
+  @media (hover: none) { .copy { opacity: 1; } }
+
+  .post-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem; margin-top: 3rem; }
+  .post-nav a {
+    display: grid; gap: .2rem; padding: .9rem 1rem; border-radius: 12px; text-decoration: none;
+    background: var(--sky-soft); color: var(--ink); font-weight: 600; transition: transform .3s var(--ease), box-shadow .3s;
+  }
+  .post-nav a span { font: 400 .78rem/1 var(--f-mono); color: var(--link); }
+  .post-nav a:hover { transform: translateY(-2px); box-shadow: var(--glow); }
+  .post-nav .next { text-align: right; grid-column: -2; }
+
+  .profile { display: flex; gap: 1.2rem; align-items: center; padding: 1.1rem; margin-bottom: 2rem;
+    border-radius: var(--r); background: var(--sky-soft); }
+  .profile dl { display: grid; gap: .15rem; font-size: var(--step--1); }
+  .profile dl div { display: flex; gap: .5rem; }
+  .profile dt { color: var(--ink-3); min-inline-size: 6.5rem; font-family: var(--f-mono); }
+  /* Maths: MathML rendered at build time, typeset with the reader’s system maths font (no downloads). */
+  .prose math { font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Noto Sans Math", math; font-size: 1.1em; }
+  .prose math[display="block"] { display: block math; margin-block: 1em; overflow-x: auto; overflow-y: hidden; padding-block: .2rem; }
+  @media (max-width: 40rem) { .prose math[display="block"] { font-size: 1em; } }
+  .math-error { color: #9b1c1c; }
+  @media (max-width: 40rem) { .profile { flex-direction: column; align-items: flex-start; } }
+}

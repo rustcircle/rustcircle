@@ -1,0 +1,7 @@
+{{- $u := urls.Parse .Destination -}}
+{{- $href := .Destination -}}
+{{- if and (not $u.IsAbs) (not (strings.HasPrefix .Destination "#")) -}}
+  {{- with .Page.Resources.Get $u.Path -}}{{- $href = .RelPermalink -}}{{- end -}}
+{{- end -}}
+<a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $u.IsAbs }} rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- /* */ -}}

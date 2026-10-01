@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="page-head">
+    <h1 class="chrome">{{ .Title }}</h1>
+    {{- with .Params.subtitle }}<p class="subtitle">{{ . }}</p>{{ end }}
+  </header>
+  {{- with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+  {{- range .Pages.GroupByDate "2006" }}
+  <section class="year" aria-labelledby="y{{ .Key }}">
+    <h2 id="y{{ .Key }}" class="year-key">{{ .Key }}</h2>
+    <ol class="cards">
+      {{- range .Pages }}{{ partial "card.html" . }}{{ end }}
+    </ol>
+  </section>
+  {{- else }}
+  <p class="empty">{{ T "noPosts" }}</p>
+  {{- end }}
+</div>
+{{ end }}

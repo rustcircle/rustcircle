@@ -1,0 +1,3 @@
+{{- /* Highlight as usual and flag the page so syntax.css loads only where code exists. */ -}}
+{{- .Page.Store.Set "hasCode" true -}}
+{{- (transform.HighlightCodeBlock .).Wrapped -}}

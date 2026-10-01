@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{- $a := site.Params.author }}
+<section class="hero" aria-labelledby="hero-name">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="persona">
+      {{ partial "avatar.html" 56 }}
+      <div>
+        <h1 id="hero-name" class="chrome">{{ $a.name }}</h1>
+        <p class="roles">{{ $a.occupation }} <span class="dot" aria-hidden="true">◆</span> <span class="hobby">♞ {{ $a.hobby }}</span></p>
+      </div>
+    </div>
+    <p class="tagline"><span class="prompt" aria-hidden="true">&gt;</span> {{ T "tagline" }}<span class="cursor" aria-hidden="true">▍</span></p>
+  </div>
+  <div class="grid-floor" aria-hidden="true"></div>
+</section>
+
+<section class="wrap" aria-labelledby="latest">
+  <h2 id="latest" class="section-title">{{ T "latest" }}</h2>
+  {{- $posts := where site.RegularPages "Section" "posts" }}
+  {{- $pager := .Paginate $posts 10 }}
+  {{- if $posts }}
+  <ol class="cards" reversed>
+    {{- range $pager.Pages }}{{ partial "card.html" . }}{{ end }}
+  </ol>
+  {{ partial "pager.html" $pager }}
+  {{- else }}
+  <p class="empty">{{ T "noPosts" }}</p>
+  {{- end }}
+</section>
+{{ end }}

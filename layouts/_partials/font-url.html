@@ -1,0 +1,2 @@
+{{- /* Fingerprinted URL of a subsetted font in assets/fonts/. Arg: base name. */ -}}
+{{- return (resources.Get (printf "fonts/%s.woff2" .) | fingerprint "md5").RelPermalink -}}

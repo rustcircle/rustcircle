@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{- $isPost := eq .Section "posts" }}
+{{- $n := partial "post-number.html" . }}
+{{- if $isPost }}<div class="progress" aria-hidden="true"></div>{{ end }}
+<article class="wrap post{{ if not $isPost }} plain{{ end }}">
+  <header class="post-head">
+    {{- if $isPost }}
+    <a class="back" href="{{ "posts/" | relURL }}">← {{ T "allPosts" }}</a>
+    {{- with $n }}<p class="num">#{{ . }}</p>{{ end }}
+    {{- end }}
+    <h1 class="chrome post-title"{{ with $n }} style="view-transition-name:t{{ . }}"{{ end }}>{{ .Title }}</h1>
+    {{- with .Params.subtitle }}<p class="subtitle">{{ . }}</p>{{ end }}
+    {{- if $isPost }}
+    <div class="byline">
+      {{ partial "avatar.html" 28 }}
+      <span class="who">{{ .Params.author | default site.Params.author.name }}</span>
+      {{ partial "meta.html" . }}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if .Params.profile }}{{ partial "profile.html" . }}{{ end }}
+
+  <div class="prose">
+    {{ .Content | replaceRE `(?s)<!--.*?-->` "" | safeHTML }}
+  </div>
+
+  {{- if $isPost }}
+  <nav class="post-nav" aria-label="{{ T "morePosts" }}">
+    {{- with .PrevInSection }}<a class="prev" href="{{ .RelPermalink }}" rel="prev"><span>← {{ T "older" }}</span>{{ .Title }}</a>{{ end }}
+    {{- with .NextInSection }}<a class="next" href="{{ .RelPermalink }}" rel="next"><span>{{ T "newer" }} →</span>{{ .Title }}</a>{{ end }}
+  </nav>
+  {{- end }}
+</article>
+{{ end }}
