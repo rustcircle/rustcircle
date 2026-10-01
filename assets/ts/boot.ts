@@ -2,6 +2,7 @@
  * The only script every page loads (< 1 kB gzip). Everything else is fetched
  * on demand with dynamic import():
  *   fractal — after `load`, when the main thread is idle (skipped on Save-Data)
+ *   horizon — same, only on pages with the hero (home)
  *   copy    — when the first code block comes within 300 px of the viewport
  *   konami  — on the first ↑ key press
  * Plus a prefetch-on-intent fallback for browsers without Speculation Rules.
@@ -23,6 +24,11 @@ const afterLoad = (fn: () => void): void => {
 // 1. Background fractal: never on the critical path.
 if (!saveData && document.getElementById("bg")) {
   afterLoad(() => whenIdle(() => { void import(chunks.fractal).then((m: typeof import("./fractal.ts")) => m.start()); }));
+}
+
+// 1b. Hero horizon grid (waves + pointer): same policy as the fractal.
+if (!saveData && document.querySelector(".hero")) {
+  afterLoad(() => whenIdle(() => { void import(chunks.horizon).then((m: typeof import("./horizon.ts")) => m.start()); }));
 }
 
 // 2. Copy buttons: only for pages with code, only when it is about to be seen.

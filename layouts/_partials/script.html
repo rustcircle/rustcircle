@@ -6,7 +6,7 @@ URLs through @params, so there is no runtime chunk map to download.
 {{- $prod := hugo.IsProduction -}}
 {{- $base := dict "minify" $prod "target" "es2022" "format" "esm" "sourceMap" (cond $prod "" "inline") -}}
 {{- $chunks := dict -}}
-{{- range slice "fractal" "copy" "konami" -}}
+{{- range slice "fractal" "horizon" "copy" "konami" -}}
   {{- $r := resources.Get (printf "ts/%s.ts" .) | js.Build (merge $base (dict "targetPath" (printf "js/%s.js" .))) | fingerprint -}}
   {{- $chunks = merge $chunks (dict . $r.RelPermalink) -}}
 {{- end -}}

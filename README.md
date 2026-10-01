@@ -90,6 +90,9 @@ draft: true                             # optional; drafts are hidden by `make b
   scroll-driven reveal of cards and a reading-progress bar (pure CSS), the
   WebGL Julia-set background (30 fps, half resolution, paused in hidden tabs).
   `prefers-reduced-motion` turns all of it off (the background becomes one still frame).
+- Hero grid: perspective lines that stay still until the pointer (or a touch)
+  meets them, then ripple locally — a swell under the pointer and rings that
+  travel out and fade (`assets/ts/horizon.ts`, loaded on idle; idle = no CPU).
 - Easter egg: ↑ ↑ ↓ ↓ ← → ← → B A.
 - No tags, no RSS feed, no sitemap (disabled in `hugo.toml` via `disableKinds`).
   The footer ends with a lemniscate ∞ (inline SVG) that traces itself on hover.
@@ -114,8 +117,8 @@ exactly what the site uses:
   two preloaded fonts, and `boot.js` (< 1 kB gzip, deferred module).
 - **Per page type:** `post.css` only on posts/pages (not on lists), `syntax.css` only
   when the page has a code block, maths needs no download at all (MathML).
-- **On demand (dynamic `import()`):** the WebGL fractal after `load` when the
-  browser is idle (never with Save-Data); the copy-code button when a code
+- **On demand (dynamic `import()`):** the WebGL fractal and the hero wave grid
+  after `load` when the browser is idle (never with Save-Data); the copy-code button when a code
   block is about to scroll into view; the easter egg on the first ↑ key.
 - **Media:** images `loading="lazy" decoding="async"` with `srcset`, video
   `preload="none"`, fonts fetched only when a style uses them, off-screen
@@ -130,7 +133,7 @@ exactly what the site uses:
 archetypes/post/   template for `make new` (index.md + assets/)
 assets/css         fonts.css (template) + core.css (inlined), post.css, syntax.css
 assets/fonts       subset woff2 + licences
-assets/ts          boot.ts (always), fractal.ts, copy.ts, konami.ts (on demand)
+assets/ts          boot.ts (always), fractal.ts, horizon.ts, copy.ts, konami.ts (on demand)
 content/           posts/, about.md
 i18n/              en.yaml (active), pt.yaml (switch with locale = "pt-PT")
 layouts/           Hugo templates, render hooks, shortcodes
