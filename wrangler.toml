@@ -1,6 +1,8 @@
 baseURL = "https://rustcircle.com/"   # your real domain (required since v0.167 changed the default)
 languageCode = "en-us"
 title = "Rust Circle"
+name = "rustcircle"                  # must match the Worker name in the dashboard
+compatibility_date = "2026-10-01"
  
 # Hugo version requirements: Hugo warns if the running version doesn't match.
 [module]
@@ -12,12 +14,16 @@ title = "Rust Circle"
   [build.cleanDestinationDir]
     enable = true                   # wipe stale files from public/ before each build
 
+[assets]
+directory = "./public"               # Hugo's output folder
+not_found_handling = "404-page"      # serve Hugo's 404.html for missing pages
+ 
 [observability.logs]
 enabled = true
 head_sampling_rate = 1
 invocation_logs = true
 persist = true
-
+ 
 [observability.traces]
 enabled = false
 head_sampling_rate = 1
