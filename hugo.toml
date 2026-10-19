@@ -21,7 +21,7 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap"]
 [params]
   description = "Notes on mathematics, artificial intelligence and quantum computing — by Pedro Jorge."
   tagline = "maths · AI · quantum computing"
-  email = "pmrj@rustcircle.com"
+  email = "p@rustcircle.com"
   [params.author]
     name = "Pedro Jorge"
     occupation = "Mathematician, Programmer"

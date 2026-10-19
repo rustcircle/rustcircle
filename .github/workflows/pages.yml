@@ -1,0 +1,50 @@
+# Build the Hugo site with `make build` and publish public/ to GitHub Pages.
+# Hugo extended and TypeScript come from package.json (npm ci, run by the
+# Makefile), so the runner only needs Node.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; never cancel a run that is already publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24   # package.json needs >= 23.6 (scripts/check.ts runs as TypeScript)
+          cache: npm
+
+      - uses: actions/configure-pages@v6
+
+      # npm ci, type check, post checks, then the production build into public/
+      - name: Build
+        run: make build
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
